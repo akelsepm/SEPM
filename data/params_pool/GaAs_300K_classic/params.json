@@ -1,0 +1,25 @@
+{
+ "config": "GaAs_300K",
+ "a0_m": 5.653e-10,
+ "basis_q2": [
+  0,
+  3,
+  4
+ ],
+ "params_Ry_and_scalars": {
+  "VS3": -0.2758,
+  "VS4": 0.0,
+  "VS8": 0.04202,
+  "VS11": 0.06032,
+  "VA3": 0.02748,
+  "VA4": 0.0,
+  "VA8": 0.0,
+  "VA11": 0.05437,
+  "L": 4580.31,
+  "beta": 1.1111111111111112
+ },
+ "cost": 13.681367914127776,
+ "mode": "verify",
+ "target_source": "Vurgaftman et al., J. Appl. Phys. 89, 5815 (2001), 300 K",
+ "note": "Locked set B (Kazim, 2026-11-18). See Fit-Raporu-01."
+}

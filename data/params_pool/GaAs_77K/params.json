@@ -1,0 +1,47 @@
+{
+  "config": "GaAs_77K",
+  "scheme": "51PW (G^2<=11) + full mask + beta free \u2014 pool production scheme",
+  "a0_m": 5.648e-10,
+  "basis_q2": [
+    0,
+    3,
+    4,
+    8,
+    11
+  ],
+  "params_Ry_and_scalars": {
+    "VS3": -0.27788675974915655,
+    "VS4": -0.09789645989268801,
+    "VS8": 0.08631414836500195,
+    "VS11": 9.826859523372578e-07,
+    "VA3": 0.1985994393650736,
+    "VA4": 0.04377024825740471,
+    "VA8": -0.049502500000000005,
+    "VA11": 0.03383358426898986,
+    "L": 1692.07779565721,
+    "beta": 1.2157432611173087
+  },
+  "cost": 77.78181892234932,
+  "mode": "fit-pool LOCKED (verified valley targets, 2026-11-19)",
+  "target_source": "Vurgaftman (2001) masses/Luttinger + Varshni 77 K gaps (valley shifts approximated by Gamma shift \u2014 flagged)",
+  "note": "Cost 83.1 -> 77.8, edges within 6 meV. Note: ml_X reads 0.18 here vs 1.61 at 300K \u2014 X longitudinal curvature observable is high-variance near the anticrossing; Gamma side is stable. LOCKED with this caveat.",
+  "observables": {
+    "Eg": 1.5018394450307522,
+    "E_L": 1.8060819281784646,
+    "E_X": 1.970470940040773,
+    "Dso": 0.34293168264362706,
+    "me100": 0.06494781299367577,
+    "mlh100": 0.09322889589650403,
+    "mhh100": 0.32177742303453094,
+    "me111": 0.06663665452678373,
+    "mlh111": 0.08657626462599574,
+    "mhh111": 0.7963887553208255,
+    "dip_L": 0.0,
+    "ml_Lmin": 1.5816258582835032,
+    "mt_L": 0.09569850376348267,
+    "mt_X": 0.1703797954405143,
+    "ml_X": 0.18468554889951572,
+    "mDOS_L": 0.6142493113375108,
+    "mDOS_X": 0.36405796429217785
+  }
+}

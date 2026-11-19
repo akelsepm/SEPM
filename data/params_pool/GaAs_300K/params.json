@@ -1,25 +1,47 @@
 {
- "config": "GaAs_300K",
- "a0_m": 5.653e-10,
- "basis_q2": [
-  0,
-  3,
-  4
- ],
- "params_Ry_and_scalars": {
-  "VS3": -0.2758,
-  "VS4": 0.0,
-  "VS8": 0.04202,
-  "VS11": 0.06032,
-  "VA3": 0.02748,
-  "VA4": 0.0,
-  "VA8": 0.0,
-  "VA11": 0.05437,
-  "L": 4580.31,
-  "beta": 1.1111111111111112
- },
- "cost": 13.681367914127776,
- "mode": "verify",
- "target_source": "Vurgaftman et al., J. Appl. Phys. 89, 5815 (2001), 300 K",
- "note": "Locked set B (Kazim, 2026-11-18). See Fit-Raporu-01."
+  "config": "GaAs_300K",
+  "scheme": "51PW (G^2<=11) + full mask + beta free \u2014 pool production scheme (Kazim decision 2026-11-19, diagnostic fit_v3)",
+  "a0_m": 5.653e-10,
+  "basis_q2": [
+    0,
+    3,
+    4,
+    8,
+    11
+  ],
+  "params_Ry_and_scalars": {
+    "VS3": -0.28464479460732955,
+    "VS4": -0.03378092678920616,
+    "VS8": 0.0713073303782913,
+    "VS11": 1.0516098635085503e-32,
+    "VA3": 0.19999999999999993,
+    "VA4": 0.0372087912478057,
+    "VA8": 0.02564040633669953,
+    "VA11": 0.019884087756995253,
+    "L": 1619.1537218415513,
+    "beta": 1.2083664089923751
+  },
+  "cost": 65.89865453788661,
+  "mode": "fit-v3r2 LOCKED (verified valley targets, 2026-11-19)",
+  "target_source": "Vurgaftman et al. (2001) 300 K + valley-shape targets (v2 target set)",
+  "note": "Refit with Ioffe-verified X targets (ml 1.9, mt 0.19): cost 79.3 -> 65.9, ml_X 1.61, all edges within 2 meV. LOCKED production anchor.",
+  "observables": {
+    "Eg": 1.4224631906812792,
+    "E_L": 1.7083986397388564,
+    "E_X": 1.8992628643203666,
+    "Dso": 0.34290845668479264,
+    "me100": 0.06356505636969008,
+    "mlh100": 0.0919567993412791,
+    "mhh100": 0.34583708379228595,
+    "me111": 0.06508319046377631,
+    "mlh111": 0.08612916179599958,
+    "mhh111": 0.8342247148620484,
+    "dip_L": 0.0,
+    "ml_Lmin": 0.938148293891566,
+    "mt_L": 0.09448860877476259,
+    "mt_X": 0.16320560950981464,
+    "ml_X": 1.614337356598254,
+    "mDOS_L": 0.5117408996809931,
+    "mDOS_X": 0.7287339283636002
+  }
 }

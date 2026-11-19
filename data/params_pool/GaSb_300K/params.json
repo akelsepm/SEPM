@@ -1,0 +1,47 @@
+{
+  "config": "GaSb_300K",
+  "scheme": "51PW + full mask + beta free",
+  "a0_m": 6.0959e-10,
+  "basis_q2": [
+    0,
+    3,
+    4,
+    8,
+    11
+  ],
+  "params_Ry_and_scalars": {
+    "VS3": -0.2990015875269922,
+    "VS4": 0.06451290722994847,
+    "VS8": 0.05016621864882291,
+    "VS11": 0.026412501339757772,
+    "VA3": 0.06537761746362133,
+    "VA4": 0.0023748508402556896,
+    "VA8": 0.04652001213825265,
+    "VA11": 9.357045919892804e-31,
+    "L": 8999.999999999798,
+    "beta": 1.261900470910262
+  },
+  "cost": 110.23741710494616,
+  "mode": "fit-pool (CC76 seed, verified targets)",
+  "target_source": "Working targets (plan table); Gamma-side verified vs Vurgaftman reproductions 2026-11-19, valley rows UNVERIFIED",
+  "note": "Chelikowsky-Cohen 1976 Table VIII seed; Ioffe-verified targets (E_L 0.81, E_X 1.03, valley masses). Cost 110 vs old 86 against WRONG targets \u2014 not comparable. Valley masses still low (scheme residual).",
+  "observables": {
+    "Eg": 0.7095272834331379,
+    "E_L": 0.8175209854037764,
+    "E_X": 1.0291400407744273,
+    "Dso": 0.7613823454753508,
+    "me100": 0.03799091787410955,
+    "mlh100": 0.04819992250956613,
+    "mhh100": 0.24425134445648694,
+    "me111": 0.039440300689105146,
+    "mlh111": 0.045305194608149454,
+    "mhh111": 0.6349062384044547,
+    "dip_L": 0.0,
+    "ml_Lmin": 0.772280868172271,
+    "mt_L": 0.07696688548410419,
+    "mt_X": 0.16749967362618465,
+    "ml_X": 0.37443970879335187,
+    "mDOS_L": 0.418312679009876,
+    "mDOS_X": 0.4555654496591082
+  }
+}

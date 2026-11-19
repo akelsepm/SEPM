@@ -1,17 +1,17 @@
-# GaAs — elektronik parametreler (Katman 2, kilitli setten)
+# GaAs_300K — elektronik parametreler (Katman 2, kilitli setten)
 
-Kenarlar: Eg(Γ) 1.4204 eV · E_L 1.7104 · E_X 1.8978 · Δso 0.3426 eV
+Kenarlar: Eg(Γ) 1.4164 eV · E_L 1.7148 · E_X 1.8976 · Δso 0.3427 eV
 
 | Yön | m_e | m_hh | m_lh | m_so |
 |---|---|---|---|---|
-| [100] | 0.0649 | 0.3594 | 0.0911 | 0.1327 |
-| [110] | 0.0666 | 0.6744 | 0.0861 | 0.1250 |
-| [111] | 0.0665 | 0.8666 | 0.0855 | 0.1223 |
+| [100] | 0.0649 | 0.3238 | 0.0922 | 0.1400 |
+| [110] | 0.0665 | 0.6247 | 0.0864 | 0.1302 |
+| [111] | 0.0667 | 0.8011 | 0.0859 | 0.1269 |
 
-Luttinger: γ1[100] 6.881 · γ1[111] 6.426 · γ2 2.049 · γ3 2.636
+Luttinger: γ1[100] 6.966 · γ1[111] 6.448 · γ2 1.939 · γ3 2.600
 
-L vadisi: m_t(L) 0.1102 · UYARI: L noktası Λ boyunca durağan değil — çizgi minimumu t=0.455 konumunda, E 1.6857 eV (E_L'den 24.8 meV aşağıda), orada m_l 1.218, m_dos 0.245
-X vadisi: m_l 0.099 (paraboliklik oranı 3.64) · m_t 0.1889 · m_dos 0.152 (dejenerelik 3)
+L vadisi: m_l 1.446 · m_t 0.1018 · m_dos 0.246 (dejenerelik 4)
+X vadisi: m_l 0.229 (paraboliklik oranı 3.66) · m_t 0.2096 · m_dos 0.216 (dejenerelik 3)
 
-DOS: 39688 k noktası, dos.npz + dos.png. Birim: durum/eV/ilkel hücre.
+DOS: 8280 k noktası, dos.npz + dos.png. Birim: durum/eV/ilkel hücre.
 Genelleştirme: bulk_properties.py MATERIALS sözlüğü — yeni malzeme = fit + havuz kaydı.
