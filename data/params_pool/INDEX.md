@@ -1,21 +1,23 @@
-# Parametre Havuzu — INDEX
+# Parameter Pool — INDEX
 
-Üretim şeması: 51 PW (G²≤11) + tam maske + serbest β, LOCAL pseudo (Kazım'ın yöntem kararı 2026-11-19).
-Vadi hedefleri Ioffe ile doğrulandı; GaAs kilitli; AlSb/AlAs vadi kütleleri doğrulanamadı (keşif).
-CC76/CB66 form faktörleri yalnız tohum: GaSb'de kullanıldı; InAs/InSb/InP'de çöktü (nonlocal kuyular olmadan eksik).
+Production scheme: 51 plane waves (G^2 <= 11), full form-factor mask, free beta, LOCAL pseudopotential.
+Valley targets verified against the Ioffe NSM archive (2026-11-19); GaAs locked;
+AlSb/AlAs valley masses unverified (exploratory).
+Cohen-Bergstresser (1966) / Chelikowsky-Cohen (1976) form factors are seeds only:
+used for GaSb; collapsed for InAs/InSb/InP (incomplete without their nonlocal wells).
 
-| Çapa | Maliyet | Mod |
+| Anchor | Cost | Mode |
 |---|---|---|
 | GaAs_300K | 65.9 | fit-v3r2 LOCKED (verified valley targets, 2026-11-19) |
 | GaAs_77K | 77.8 | fit-pool LOCKED (verified valley targets, 2026-11-19) |
-| InAs_300K | 130.1 | fit-pool EXPLORATORY round 2 (narrow-gap weighting) |
-| InAs_77K | 161.4 | fit-pool EXPLORATORY round 2 (narrow-gap weighting) |
+| InAs_300K | 137.1 | fit-pool R3 (DOS targets, narrow-gap profile) |
+| InAs_77K | 172.3 | fit-pool R3 (DOS targets, narrow-gap profile) |
 | GaSb_300K | 110.2 | fit-pool (CC76 seed, verified targets) |
 | GaSb_77K | 123.9 | fit-pool (CC76 seed, verified targets) |
 | AlSb_300K | 178.8 | fit-pool (CB66 seed) |
 | AlSb_77K | 132.1 | fit-pool EXPLORATORY |
-| InSb_300K | 580.0 | fit-pool EXPLORATORY round 3 (InAs seed, narrow-gap weighting) |
-| InSb_77K | 780.3 | fit-pool EXPLORATORY round 3 (InAs seed, narrow-gap weighting) |
+| InSb_300K | 608.6 | fit-pool R4 (InSb_77K seed, verified targets) |
+| InSb_77K | 798.0 | fit-pool R4 (InAs seed, verified targets) |
 | AlAs_300K | 114.0 | fit-pool EXPLORATORY |
 | AlAs_77K | 106.6 | fit-pool EXPLORATORY |
 | InP_300K | 74.8 | fit-pool (verified targets, own constants) |
@@ -23,4 +25,4 @@ CC76/CB66 form faktörleri yalnız tohum: GaSb'de kullanıldı; InAs/InSb/InP'de
 | GaP_300K | 136.5 | fit-pool (verified targets, own constants) |
 | GaP_77K | 137.4 | fit-pool (verified targets, own constants) |
 
-GaAs_300K_classic/: Bölüm 6'nın pedagojik klasik seti (15 PW) — arşiv.
+GaAs_300K_classic/: the pedagogical classic set of Chapter 6 (15 PW) — archive.

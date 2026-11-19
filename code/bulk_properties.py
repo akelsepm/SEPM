@@ -250,22 +250,22 @@ def run(name):
     fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.4), dpi=200)
     axes[0].plot(centres, dos_s, color="#0f766e", lw=1.2)
     axes[0].set_xlim(-8, 4); axes[0].set_xlabel("E − VBM (eV)")
-    axes[0].set_ylabel("DOS (durum/eV/hücre)")
-    axes[0].set_title(f"{name}: tam DOS", loc="left", fontsize=10.5)
+    axes[0].set_ylabel("DOS (states/eV/cell)")
+    axes[0].set_title(f"{name}: full DOS", loc="left", fontsize=10.5)
     axes[1].plot(centres, dos_s, color="#0f766e", lw=1.2)
     axes[1].set_xlim(-1.2, 2.6); axes[1].set_ylim(0, 8)
     axes[1].axvline(0, color="#9ca3af", lw=0.7, ls="--")
     axes[1].set_xlabel("E − VBM (eV)")
-    axes[1].set_title("Bant kenarı yakınları", loc="left", fontsize=10.5)
+    axes[1].set_title("Near the band edges", loc="left", fontsize=10.5)
     fig.tight_layout(); fig.savefig(pool / "dos.png")
 
     L = out["luttinger"]; V = out["valleys"]; E = out["edges"]
-    md = [f"# {name} — elektronik parametreler (Katman 2, kilitli setten)",
+    md = [f"# {name} — electronic parameters (Layer 2, from the locked set)",
           "",
-          f"Kenarlar: Eg(Γ) {E['Eg_Gamma_eV']:.4f} eV · E_L {E['E_L_eV']:.4f} · "
+          f"Edges: Eg(Γ) {E['Eg_Gamma_eV']:.4f} eV · E_L {E['E_L_eV']:.4f} · "
           f"E_X {E['E_X_eV']:.4f} · Δso {E['Delta_so_eV']:.4f} eV",
           "",
-          "| Yön | m_e | m_hh | m_lh | m_so |",
+          "| Direction | m_e | m_hh | m_lh | m_so |",
           "|---|---|---|---|---|"]
     for d in ("100", "110", "111"):
         r = g[d]
@@ -277,21 +277,21 @@ def run(name):
            ""]
     Lv, Xv = V["L"], V["X"]
     if Lv.get("stationary_at_point"):
-        md.append(f"L vadisi: m_l {Lv['m_long']:.3f} · m_t {Lv['m_trans']:.4f} · "
-                  f"m_dos {Lv['m_dos_valley']:.3f} (dejenerelik 4)")
+        md.append(f"L valley: m_l {Lv['m_long']:.3f} · m_t {Lv['m_trans']:.4f} · "
+                  f"m_dos {Lv['m_dos_valley']:.3f} (degeneracy 4)")
     else:
-        md.append(f"L vadisi: m_t(L) {Lv['m_trans']:.4f} · UYARI: L noktası Λ "
-                  f"boyunca durağan değil — çizgi minimumu t={Lv['line_min_t']:.3f} "
-                  f"konumunda, E {Lv['line_min_E_eV']:.4f} eV "
-                  f"(E_L'den {1000*(Lv['E_point_eV']-Lv['line_min_E_eV']):.1f} meV aşağıda), "
-                  f"orada m_l {Lv['m_long_at_line_min']:.3f}, m_dos {Lv['m_dos_valley']:.3f}")
+        md.append(f"L valley: m_t(L) {Lv['m_trans']:.4f} · WARNING: the L point is not stationary along Λ "
+                  f"— the line minimum is at t={Lv['line_min_t']:.3f} "
+                  f", E {Lv['line_min_E_eV']:.4f} eV "
+                  f"(, {1000*(Lv['E_point_eV']-Lv['line_min_E_eV']):.1f} meV below E_L), "
+                  f"with m_l there {Lv['m_long_at_line_min']:.3f}, m_dos {Lv['m_dos_valley']:.3f}")
     if Xv.get("stationary_at_point"):
-        md.append(f"X vadisi: m_l {Xv['m_long']:.3f} (paraboliklik oranı "
+        md.append(f"X valley: m_l {Xv['m_long']:.3f} (parabolicity ratio "
                   f"{Xv['parabolicity_ratio']:.2f}) · m_t {Xv['m_trans']:.4f} · "
-                  f"m_dos {Xv['m_dos_valley']:.3f} (dejenerelik 3)")
+                  f"m_dos {Xv['m_dos_valley']:.3f} (degeneracy 3)")
     md += ["",
-           f"DOS: {nk} k noktası, dos.npz + dos.png. Birim: durum/eV/ilkel hücre.",
-           "Genelleştirme: bulk_properties.py MATERIALS sözlüğü — yeni malzeme = fit + havuz kaydı."]
+           f"DOS: {nk} k points, dos.npz + dos.png. Units: states/eV/primitive cell.",
+           "Generalization: the MATERIALS dict in bulk_properties.py — a new material = a fit + a pool entry."]
     (pool / "properties.md").write_text("\n".join(md) + "\n")
     print("\n".join(md))
     return out

@@ -129,5 +129,5 @@ if __name__ == "__main__":
     p = get_params("GaAs", T=300)
     print("GaAs @300K (anchor):", p["VS_RY"], "L =", p["L_SO"],
           "|", p["provenance"]["flag"])
-    print("Eksik çapalar (kampanya dolduracak):")
+    print("Missing anchors (to be filled by the campaign):")
     print(" ", ", ".join(missing_anchors()))

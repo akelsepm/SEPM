@@ -1,8 +1,7 @@
 # SEPM — Superlattice Empirical Pseudopotential Method
 
 Open code and data accompanying the monograph in preparation
-*Süperörgülerde Ampirik Pseudopotansiyel Yöntemi* (Empirical Pseudopotential
-Method for Superlattices) by Kazım Akel.
+*Empirical Pseudopotential Method for Superlattices* by Kazim Akel.
 
 Everything here is public on purpose: fitted parameter sets, the fit engine,
 the property-extraction code and the book chapters (PDF). The only part that

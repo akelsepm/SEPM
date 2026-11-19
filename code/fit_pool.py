@@ -174,12 +174,12 @@ def main():
         # gap itself (sigma 5 meV) and relax mass sigmas x2.
         tg = {k: (v[0], 0.005 if k == "Eg" else (v[1] * 2 if k in MASS_KEYS else v[1]))
               for k, v in tg.items()}
-        print(f"{material}: narrow-gap agirlik profili uygulaniyor", flush=True)
+        print(f"{material}: narrow-gap weighting profile applied", flush=True)
     if material in DOS_VALLEY:
         for k in ("mt_L", "ml_Lmin", "mt_X", "ml_X"):
             tg.pop(k, None)
         tg.update(DOS_VALLEY[material])
-        print(f"{material}: DOS-kutle vadi hedefleri (dogrulama 2026-11-19)",
+        print(f"{material}: DOS-mass valley targets (verified 2026-11-19)",
               flush=True)
     setup_basis(row["a0"])
     U, H22 = F.U, F.HBAR2_OVER_2M0
