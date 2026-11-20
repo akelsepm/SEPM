@@ -40,7 +40,16 @@ ANIONS = ("As", "Sb", "P")
 # AlGaAs/VA4: fitted 2026-11-19 to the VMR E_X(x) curve at 300 K on
 # the frozen v3+v3 pair (code/fit_bowing.py; X rms 56 -> 12 meV,
 # 77 K transfer 61 -> 19 meV; Gamma cost <= 7 meV at x = 0.3).
-BOWING = {("AlGaAs", "VA4"): 0.00862}
+BOWING = {("AlGaAs", "VA4"): 0.00862,
+          # Chapter 9 wave (2026-11-19): registered only where the
+          # acceptance gate passed (Gamma rms <= 25 meV at 300 K,
+          # 77 K transfer, term <= 60% of the channel's endpoint
+          # scale). InGaAs, AlInAs, GaAsP, AlGaSb, GaAsSb failed the
+          # gate and stay pure VCA, flagged path-limited
+          # (code/ternary_fit.py; hidden_files/bowing_<system>.json).
+          ("InGaP", "VS8"): -0.01151,
+          ("InGaSb", "VS8"): -0.00336, ("InGaSb", "VA4"): -0.01880,
+          ("InAsSb", "VS8"): -0.01008}
 
 
 def _load_anchor(binary, T):
@@ -85,7 +94,14 @@ def binary_params(binary, T):
 
 
 def _split_ternary(name):
-    """'AlGaAs' -> ('Al', 'Ga', 'As'); the FIRST cation carries x."""
+    """Ternary name -> (binary at x = 1, binary at x = 0).
+
+    Cation-mixed: 'AlGaAs' -> ('AlAs', 'GaAs'); x is the fraction of
+    the FIRST cation. Anion-mixed: 'GaAsP' -> ('GaAs', 'GaP'); x is
+    the fraction of the FIRST anion. The VCA interpolation itself is
+    identical in both cases (component-wise lerp of the two endpoint
+    binaries sharing one sublattice).
+    """
     for an in ANIONS:
         if name.endswith(an):
             stem = name[: -len(an)]
@@ -93,13 +109,21 @@ def _split_ternary(name):
                 if stem.startswith(c1):
                     c2 = stem[len(c1):]
                     if c2 in CATIONS:
-                        return c1, c2, an
+                        return f"{c1}{an}", f"{c2}{an}"
+    for c in CATIONS:
+        if name.startswith(c):
+            rest = name[len(c):]
+            for a1 in ANIONS:
+                if rest.startswith(a1):
+                    a2 = rest[len(a1):]
+                    if a2 in ANIONS:
+                        return f"{c}{a1}", f"{c}{a2}"
     return None
 
 
 def get_params(system, x=None, T=300):
     """Parameter set for a binary ('GaAs') or ternary ('AlGaAs', x =
-    fraction of the FIRST cation). T in kelvin."""
+    fraction of the FIRST-named constituent). T in kelvin."""
     sp = _split_ternary(system)
     if sp is None:  # binary
         if x not in (None, 0.0, 1.0):
@@ -107,9 +131,9 @@ def get_params(system, x=None, T=300):
         return binary_params(system, T)
     if x is None:
         raise ValueError(f"x is required for ternary {system}")
-    c1, c2, an = sp
-    pA = binary_params(f"{c1}{an}", T)
-    pB = binary_params(f"{c2}{an}", T)
+    binA, binB = sp
+    pA = binary_params(binA, T)
+    pB = binary_params(binB, T)
     p = _lerp(pB, pA, x)
     bowed = []
     for (sysname, key), b in BOWING.items():

@@ -35,3 +35,9 @@ fitted to the VMR E_X(x) curve at 300 K on the frozen GaAs+AlAs pair
 are untouched by construction.
 
 GaAs_300K_classic/: the pedagogical classic set of Chapter 6 (15 PW) — archive.
+
+Ternary layer (pool.py BOWING): AlGaAs VA4 +0.00862 (Ch. 8);
+Chapter 9 wave 1 registered InGaP VS8 -0.01151, InGaSb VS8 -0.00336
++ VA4 -0.01880, InAsSb VS8 -0.01008. InGaAs, AlInAs, GaAsP, AlGaSb
+and GaAsSb failed the acceptance gate (Gamma rms / 77 K transfer /
+term discipline) and remain pure VCA, flagged path-limited.
