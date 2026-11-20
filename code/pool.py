@@ -11,8 +11,9 @@ observables), so the result is always a usable Hamiltonian input:
     extrapolated, flag "T-EXTRAPOLATED" (unvalidated by construction).
   * Composition: for a ternary A_x B_{1-x} C, virtual-crystal
     interpolation of the parameters, linear in x; the lattice constant
-    follows Vegard's law (the same linear rule). An optional bowing
-    hook per parameter is reserved (BOWING below, all zero for now).
+    follows Vegard's law (the same linear rule). A per-parameter
+    bowing hook (BOWING below) carries the alloy layer's own fitted
+    coefficients; AlGaAs/VA4 is active, everything else is zero.
 
 Book rule (Kazim, 2026-11-19): the book publishes ONLY the anchors —
 binaries at 77/300 K, compared against literature. Interpolated sets
@@ -33,7 +34,13 @@ POOL_DIR = Path(__file__).parent / "params_pool"
 ANCHOR_TEMPS = (77, 300)
 CATIONS = ("Al", "Ga", "In")
 ANIONS = ("As", "Sb", "P")
-BOWING = {}  # e.g. {("AlGaAs", "VS3"): 0.0} — reserved, all zero
+# Alloy-layer bowing coefficients, fitted per system against alloy
+# data (never against the binaries; the term b * x * (1 - x) vanishes
+# at both endpoints, so anchors are untouched by construction).
+# AlGaAs/VA4: fitted 2026-11-19 to the VMR E_X(x) curve at 300 K on
+# the frozen v3+v3 pair (code/fit_bowing.py; X rms 56 -> 12 meV,
+# 77 K transfer 61 -> 19 meV; Gamma cost <= 7 meV at x = 0.3).
+BOWING = {("AlGaAs", "VA4"): 0.00862}
 
 
 def _load_anchor(binary, T):
@@ -104,13 +111,17 @@ def get_params(system, x=None, T=300):
     pA = binary_params(f"{c1}{an}", T)
     pB = binary_params(f"{c2}{an}", T)
     p = _lerp(pB, pA, x)
+    bowed = []
     for (sysname, key), b in BOWING.items():
         if sysname == system and b:
-            p[key] += b * x * (1 - x)  # reserved hook; inactive while 0
+            section, shell = key[:2] + "_RY", int(key[2:])
+            p[section][shell] += b * x * (1 - x)
+            bowed.append(key)
     flags = {pA["provenance"]["flag"], pB["provenance"]["flag"]}
     p["provenance"] = {"system": system, "x": x, "T": T,
                        "flag": "VCA-x" + ("+" + "+".join(sorted(flags))
-                                          if flags else "")}
+                                          if flags else "")
+                       + ("+bowing(" + ",".join(bowed) + ")" if bowed else "")}
     return p
 
 
@@ -129,5 +140,5 @@ if __name__ == "__main__":
     p = get_params("GaAs", T=300)
     print("GaAs @300K (anchor):", p["VS_RY"], "L =", p["L_SO"],
           "|", p["provenance"]["flag"])
-    print("Missing anchors (to be filled by the campaign):")
+    print("Missing anchors (the campaign will fill these):")
     print(" ", ", ".join(missing_anchors()))

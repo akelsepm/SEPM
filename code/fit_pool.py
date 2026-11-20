@@ -137,17 +137,26 @@ def observables10(p10, U, H22):
     Es = np.array([F.eigs(t * U * axis, V, L, beta)[8] for t in ts])
     i = int(np.argmin(Es))
     o["dip_L"] = el[8] - Es[i]
-    h = 0.01; dk = h * U * np.sqrt(3.0)
-    if 0 < i < len(ts) - 1:
-        a = (Es[i + 1] - 2 * Es[i] + Es[i - 1]) / dk ** 2
-    else:
-        e_in = F.eigs((0.50 - h) * U * axis, V, L, beta)[8]
-        a = (e_in - el[8]) / dk ** 2
-    o["ml_Lmin"] = abs(H22 / a) if a > 0 else 50.0
 
     def pair_mean(k):
         w = F.eigs(k, V, L, beta)
         return 0.5 * (w[8] + w[9])
+
+    # Valley longitudinal masses: SYMMETRIC second difference at the
+    # valley minimum, a = (E+ + E- - 2E0) / (2 h^2), m = H22 / a
+    # (Kazim decision 2026-11-19, diagnosis in
+    # files/Katman-3-Egrilik-Tahmincisi-Tani.md: the old one-sided
+    # estimators measured the anticrossing shoulder, not curvature;
+    # the symmetric estimator is window-stable, e.g. GaAs ml_X = 1.06
+    # for h = 0.005..0.04, and agrees with bulk_properties.valley_masses).
+    h_t = 0.01
+    dk_L = h_t * U * np.sqrt(3.0)
+    t_min = ts[i]
+    a = (pair_mean((t_min + h_t) * U * axis)
+         + pair_mean((t_min - h_t) * U * axis)
+         - 2 * pair_mean(t_min * U * axis)) / (2 * dk_L ** 2)
+    o["ml_Lmin"] = abs(H22 / a) if a > 0 else 50.0
+
     dl = 0.02
     for name, k0, tdir in (("mt_L", KL, np.array([1.0, -1.0, 0.0]) / np.sqrt(2)),
                            ("mt_X", KX, np.array([0.0, 1.0, 0.0]))):
@@ -156,7 +165,9 @@ def observables10(p10, U, H22):
              - 2 * e0) / (2 * (dl * U) ** 2)
         o[name] = abs(H22 / a) if a > 0 else 50.0
     e0 = pair_mean(KX)
-    a = (pair_mean(KX - dl * U * np.array([1.0, 0.0, 0.0])) - e0) / (dl * U) ** 2
+    a = (pair_mean(KX + dl * U * np.array([1.0, 0.0, 0.0]))
+         + pair_mean(KX - dl * U * np.array([1.0, 0.0, 0.0]))
+         - 2 * e0) / (2 * (dl * U) ** 2)
     o["ml_X"] = abs(H22 / a) if a > 0 else 50.0
     o["mDOS_L"] = (16.0 * o["ml_Lmin"] * o["mt_L"] ** 2) ** (1.0 / 3.0)
     o["mDOS_X"] = (9.0 * o["ml_X"] * o["mt_X"] ** 2) ** (1.0 / 3.0)
@@ -167,6 +178,15 @@ def main():
     material, T = sys.argv[1], int(sys.argv[2])
     row = TARGETS[(material, T)]
     tg = dict(row["targets"])
+    if material == "AlAs":
+        # Satellite-weight variant (Kazim B-package, 2026-11-19): AlAs
+        # is indirect; its Gamma and X edges became load-bearing
+        # through AlGaAs, so their sigmas are tightened (edges 10 -> 5
+        # meV, ml_X 0.20 -> 0.10, mt_X 0.07 -> 0.03).
+        tg = {k: (v[0], 0.005 if k in ("Eg", "E_X") else
+                  (0.10 if k == "ml_X" else
+                   (0.03 if k == "mt_X" else v[1])))
+              for k, v in tg.items()}
     if material in ("InAs", "InSb"):
         # Narrow-gap weighting variant (documented): the parabolic
         # Gamma mass of a narrow-gap material is an edge-of-validity
@@ -174,12 +194,12 @@ def main():
         # gap itself (sigma 5 meV) and relax mass sigmas x2.
         tg = {k: (v[0], 0.005 if k == "Eg" else (v[1] * 2 if k in MASS_KEYS else v[1]))
               for k, v in tg.items()}
-        print(f"{material}: narrow-gap weighting profile applied", flush=True)
+        print(f"{material}: narrow-gap agirlik profili uygulaniyor", flush=True)
     if material in DOS_VALLEY:
         for k in ("mt_L", "ml_Lmin", "mt_X", "ml_X"):
             tg.pop(k, None)
         tg.update(DOS_VALLEY[material])
-        print(f"{material}: DOS-mass valley targets (verified 2026-11-19)",
+        print(f"{material}: DOS-kutle vadi hedefleri (dogrulama 2026-11-19)",
               flush=True)
     setup_basis(row["a0"])
     U, H22 = F.U, F.HBAR2_OVER_2M0
